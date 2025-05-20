@@ -11,3 +11,56 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.sidebar-item {
+  width: 250px;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  box-shadow: 0 4px 12px #f9f9f9;
+}
+
+ul li:hover {
+  background-color: #e6e6e6;
+}
+
+ul li.active {
+  background-color: #ffeed9;
+  font-weight: bold;
+}
+
+h4:hover {
+  background-color: #e6e6e6;
+}
+
+.icon {
+  transition: color 0.3s;
+}
+
+/* Hover effect */
+.icon:hover {
+  color: #ff6f61; /* Color on hover */
+}
+
+.loginRegiterButton {
+  width: 90%;
+  padding: 12px;
+  margin: 5px;
+  background-color: #3a0ca3;
+  font-weight: 600;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+
+.ulStyle {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
