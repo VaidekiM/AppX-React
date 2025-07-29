@@ -8,13 +8,19 @@ function Product({ categoryId, subCategoryId, viewMode }) {
 
   useEffect(() => {
     if (categoryId && subCategoryId) {
-      fetch(`http://localhost:5232/api/product/filter?categoryId=${categoryId}&subCategoryId=${subCategoryId}`)
-        .then(res => {
-          if (!res.ok) throw new Error('Failed to fetch products');
-          return res.json();
-        })
-        .then(data => setProducts(data))
-        .catch(error => console.error('Error fetching products:', error));
+      const fetchProducts = async () => {
+        try {
+          const res = await fetch(`http://localhost:5232/api/product/filter?categoryId=${categoryId}&subCategoryId=${subCategoryId}`);
+          if (!res.ok) throw new Error(`Error: ${res.status}`);
+          const data = await res.json();
+          setProducts(data);
+        } catch (err) {
+          console.error('Error fetching products:', err.message);
+          setProducts([]); // fallback to empty list if needed
+        }
+      };
+
+      fetchProducts();
     }
   }, [categoryId, subCategoryId]);
   
@@ -31,7 +37,7 @@ function Product({ categoryId, subCategoryId, viewMode }) {
         <div>No products available.</div>
       ) : (
         products.map((product) => {
-          const quantity = cartItems[product.name] || 0;
+          const quantity = cartItems[product.name]?.quantity || 0;
 
           return (
             <div
@@ -84,7 +90,7 @@ function Product({ categoryId, subCategoryId, viewMode }) {
                   }}>{product.name}</h3>
                   {viewMode === 'list' && (
                     <p style={{ color: '#666', fontSize: '14px', marginTop: '4px' }}>
-                      In stock: {product.stock}
+                      In stock: {product.quantity}
                     </p>
                   )}
                 </div>
@@ -98,7 +104,7 @@ function Product({ categoryId, subCategoryId, viewMode }) {
               }}>
                 {quantity === 0 ? (
                   <button
-                    onClick={() => addToCart(product.name)}
+                    onClick={() => addToCart(product)}
                     style={{
                       padding: '10px 18px',
                       backgroundColor: '#E74C3C',

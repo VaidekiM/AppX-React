@@ -23,14 +23,13 @@ function LoginPage() {
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
-      const authToken = data.token;
-
+      const { token, userId } = data;
       //Store the token in localStorage (or sessionStorage) - added this after back trigger in login
-      localStorage.setItem('authToken', authToken);
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('userId', userId);
       history.push('/landing');
     } catch (error) {
       setMessage(error.message);

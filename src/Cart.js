@@ -7,18 +7,11 @@ function Cart() {
   const { cartItems } = useCart(); // Get cart items from context
   const history = useHistory(); // Get history from useHistory
   const location = useLocation();
-  
-  const fruits = [
-    { name: 'Apple', price: 1.5 },
-    { name: 'Banana', price: 1 },
-    { name: 'Orange', price: 2 },
-    { name: 'Mango', price: 2.5 },
-  ];
 
-  const itemsInCart = fruits.filter(f => cartItems[f.name]);
+  const itemsInCart = Object.values(cartItems); // Now contains { product, quantity }
 
   const total = itemsInCart.reduce(
-    (sum, item) => sum + item.price * cartItems[item.name],
+    (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
@@ -69,21 +62,21 @@ function Cart() {
         ) : (
           <>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {itemsInCart.map((item, index) => (
-                <li
-                  key={index}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '12px 0',
-                    borderBottom: '1px solid #eee',
-                    fontSize: '18px'
-                  }}
-                >
-                  <span>{item.name}</span>
-                  <span>{cartItems[item.name]} × ${item.price.toFixed(2)}</span>
-                </li>
-              ))}
+            {itemsInCart.map((item, index) => (
+              <li
+                key={index}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: '12px 0',
+                  borderBottom: '1px solid #eee',
+                  fontSize: '18px'
+                }}
+              >
+                <span>{item.product.name}</span>
+                <span>{item.quantity} × ${item.product.price.toFixed(2)}</span>
+              </li>
+            ))}
             </ul>
 
             <div style={{
